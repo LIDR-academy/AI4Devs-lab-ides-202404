@@ -2,12 +2,39 @@ import { Request, Response, NextFunction } from 'express';
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
+import candidateRoutes from './routes/candidateRoutes';
+
+// Extender la interfaz Request para incluir prisma
+declare global {
+  namespace Express {
+    interface Request {
+      prisma: PrismaClient;
+    }
+  }
+}
 
 dotenv.config();
 const prisma = new PrismaClient();
 
 export const app = express();
-export default prisma;
+export default app;
+
+// Middleware para parsear JSON. Asegúrate de que esto esté antes de tus rutas.
+app.use(express.json());
+
+// Middleware para adjuntar prisma al objeto de solicitud
+app.use((req, res, next) => {
+  req.prisma = prisma;
+  next();
+});
+
+// Import and use candidateRoutes
+app.use('/candidates', candidateRoutes);
+
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  next();
+});
 
 const port = 3010;
 
