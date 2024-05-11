@@ -2,6 +2,7 @@ import { Candidate } from '../domain/Candidate';
 import { validateCandidateData } from './validator';
 import { Education } from '../domain/Education';
 import { WorkExperience } from '../domain/WorkExperience';
+import { Resume } from '../domain/Resume';
 
 export const addCandidate = async (candidateData: any) => {
     try {
@@ -33,6 +34,14 @@ export const addCandidate = async (candidateData: any) => {
                 await experienceModel.save();
                 candidate.workExperience.push(experienceModel);
             }
+        }
+
+        // Guardar los archivos de CV
+        if (candidateData.cv) {
+            const resumeModel = new Resume(candidateData.cv);
+            resumeModel.candidateId = candidateId;
+            await resumeModel.save();
+            candidate.resumes.push(resumeModel);
         }
 
         return savedCandidate;

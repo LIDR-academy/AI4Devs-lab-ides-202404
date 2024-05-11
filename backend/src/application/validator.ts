@@ -67,7 +67,10 @@ export const validateCandidateData = (data: any) => {
         }
     }
 
-    if (data.cv && !['application/pdf', 'application/msword'].includes(data.cv.mimetype)) {
-        throw new Error('Invalid CV file type');
+    // Validación para el campo cv que ahora recibe un objeto con filePath y fileType
+    if (data.cv) {
+        if (typeof data.cv !== 'object' || !data.cv.filePath || typeof data.cv.filePath !== 'string' || !data.cv.fileType || typeof data.cv.fileType !== 'string') {
+            throw new Error('Invalid CV data');
+        }
     }
 };

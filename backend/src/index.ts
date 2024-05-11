@@ -3,6 +3,7 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
 import candidateRoutes from './routes/candidateRoutes';
+import { uploadFile } from './application/fileUploadService';
 
 // Extender la interfaz Request para incluir prisma
 declare global {
@@ -30,6 +31,9 @@ app.use((req, res, next) => {
 
 // Import and use candidateRoutes
 app.use('/candidates', candidateRoutes);
+
+// Route for file uploads
+app.post('/upload', uploadFile);
 
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
