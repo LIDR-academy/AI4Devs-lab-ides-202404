@@ -1,26 +1,13 @@
-import { Request, Response, NextFunction } from 'express';
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
-import dotenv from 'dotenv';
+import candidateRoutes from './routes/candidateRoutes';
 
-dotenv.config();
-const prisma = new PrismaClient();
+const app = express();
+app.use(express.json()); // Middleware para parsear JSON
 
-export const app = express();
-export default prisma;
+app.use('/api', candidateRoutes); // Usar las rutas de candidatos
 
 const port = 3010;
-
-app.get('/', (req, res) => {
-  res.send('Hola LTI!');
-});
-
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
-  res.type('text/plain'); 
-  res.status(500).send('Something broke!');
-});
-
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });
+
