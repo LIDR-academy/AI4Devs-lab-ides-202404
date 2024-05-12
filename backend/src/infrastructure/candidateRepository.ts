@@ -9,7 +9,7 @@ export class CandidateRepository {
   }
 
   async addCandidate(candidate: Candidate): Promise<Candidate> {
-    const createdCandidate = await this.prisma.Candidate.create({
+    const createdCandidate = await this.prisma.candidate.create({
       data: {
         firstName: candidate.firstName,
         lastName: candidate.lastName,

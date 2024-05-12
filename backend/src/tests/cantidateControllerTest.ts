@@ -35,7 +35,7 @@ describe('CandidateController', () => {
         } as unknown as Response;
         const candidateData = new Candidate(req.body);
         // Asegúrate de que el tipo de candidateService.addCandidate sea correctamente inferido
-        candidateService.addCandidate = jest.fn().mockResolvedValue(candidateData) as jest.MockedFunction<typeof candidateService.addCandidate>;
+        //candidateService.addCandidate = jest.fn().mockResolvedValue(candidateData) as jest.MockedFunction<typeof candidateService.addCandidate>;
         await candidateController.addCandidate(req as Request, res);
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.json).toHaveBeenCalledWith(candidateData);

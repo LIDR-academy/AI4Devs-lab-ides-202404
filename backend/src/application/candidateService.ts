@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { Candidate } from '../domain/candidate';
 import { CandidateRepository } from '../infrastructure/candidateRepository';
 
@@ -12,11 +13,11 @@ export class CandidateService {
     try {
       return await this.candidateRepository.addCandidate(candidateDomain);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw new Error(`Error al añadir candidato: ${error.message}`);
-      } else {
-        throw new Error('Error al añadir candidato: Error desconocido');
-      }
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+            throw new Error('El correo electrónico ya está registrado. Por favor, utiliza otro.');
+        } else {
+            throw new Error('Error al añadir candidato: Error desconocido');
+        }
     }
   }
 }

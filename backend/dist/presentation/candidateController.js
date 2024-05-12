@@ -35,24 +35,53 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var supertest_1 = __importDefault(require("supertest"));
-var index_1 = require("../index");
-describe('GET /', function () {
-    it('responds with Hello World!', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, supertest_1.default)(index_1.app).get('/')];
-                case 1:
-                    response = _a.sent();
-                    expect(response.statusCode).toBe(200);
-                    expect(response.text).toBe('Hello World!');
-                    return [2 /*return*/];
-            }
+exports.CandidateController = void 0;
+var CandidateController = /** @class */ (function () {
+    function CandidateController(candidateService) {
+        this.candidateService = candidateService;
+    }
+    CandidateController.prototype.addCandidate = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var candidateData, candidate, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        candidateData = req.body;
+                        // Asignar la ruta del archivo a resumePath
+                        if (req.file) {
+                            candidateData.resumePath = req.file.path;
+                        }
+                        return [4 /*yield*/, this.candidateService.addCandidate(candidateData)];
+                    case 1:
+                        candidate = _a.sent();
+                        res.status(201).json(candidate);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_1 = _a.sent();
+                        console.error('Error:', error_1);
+                        if (error_1 instanceof Error && error_1.message.includes('correo electrónico ya está registrado')) {
+                            res.status(409).json({ message: error_1.message });
+                        }
+                        else {
+                            console.error('Error:', error_1);
+                            res.status(500).json({ message: 'Error interno del servidor' });
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
         });
-    }); });
-});
+    };
+    CandidateController.prototype.ping = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                res.status(200).json({ message: 'pong' });
+                return [2 /*return*/];
+            });
+        });
+    };
+    return CandidateController;
+}());
+exports.CandidateController = CandidateController;
