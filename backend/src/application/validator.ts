@@ -1,79 +1,105 @@
+const NAME_REGEX = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/;
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const PHONE_REGEX = /^(6|7|9)\d{8}$/;
+const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+
+const validateName = (name: string, maxLength: number) => {
+    if (!name || name.length < 2 || name.length > maxLength || !NAME_REGEX.test(name)) {
+        throw new Error('Invalid name');
+    }
+};
+
+const validateEmail = (email: string) => {
+    if (!email || !EMAIL_REGEX.test(email)) {
+        throw new Error('Invalid email');
+    }
+};
+
+const validatePhone = (phone: string) => {
+    if (phone && !PHONE_REGEX.test(phone)) {
+        throw new Error('Invalid phone');
+    }
+};
+
+const validateDate = (date: string) => {
+    if (!date || !DATE_REGEX.test(date)) {
+        throw new Error('Invalid date');
+    }
+};
+
+const validateAddress = (address: string) => {
+    if (address && address.length > 100) {
+        throw new Error('Invalid address');
+    }
+};
+
+const validateEducation = (education: any) => {
+    if (!education.institution || education.institution.length > 100) {
+        throw new Error('Invalid institution');
+    }
+
+    if (!education.title || education.title.length > 100) {
+        throw new Error('Invalid title');
+    }
+
+    validateDate(education.startDate);
+
+    if (education.endDate && !DATE_REGEX.test(education.endDate)) {
+        throw new Error('Invalid end date');
+    }
+};
+
+const validateExperience = (experience: any) => {
+    if (!experience.company || experience.company.length > 100) {
+        throw new Error('Invalid company');
+    }
+
+    if (!experience.position || experience.position.length > 100) {
+        throw new Error('Invalid position');
+    }
+
+    if (experience.description && experience.description.length > 200) {
+        throw new Error('Invalid description');
+    }
+
+    validateDate(experience.startDate);
+
+    if (experience.endDate && !DATE_REGEX.test(experience.endDate)) {
+        throw new Error('Invalid end date');
+    }
+};
+
+const validateCV = (cv: any) => {
+    if (typeof cv !== 'object' || !cv.filePath || typeof cv.filePath !== 'string' || !cv.fileType || typeof cv.fileType !== 'string') {
+        throw new Error('Invalid CV data');
+    }
+};
+
 export const validateCandidateData = (data: any) => {
     if (data.id) {
         // If id is provided, we are editing an existing candidate, so fields are not mandatory
         return;
     }
 
-    if (!data.firstName || data.firstName.length < 2 || data.firstName.length > 50 || !/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/.test(data.firstName)) {
-        throw new Error('Invalid firstName');
-    }
-
-    if (!data.lastName || data.lastName.length < 2 || data.lastName.length > 50 || !/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/.test(data.lastName)) {
-        throw new Error('Invalid lastName');
-    }
-
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!data.email || !emailRegex.test(data.email)) {
-        throw new Error('Invalid correo electrónico');
-    }
-
-    const phoneRegex = /^\+?\d{1,3}?[- .]?\(?(?:\d{2,3})\)?[- .]?\d\d\d[- .]?\d\d\d\d$/;
-    if (data.phone && !phoneRegex.test(data.phone)) {
-        throw new Error('Invalid teléfono');
-    }
-
-    if (data.address && data.address.length > 100) {
-        throw new Error('Invalid dirección');
-    }
+    validateName(data.firstName, 50);
+    validateName(data.lastName, 50);
+    validateEmail(data.email);
+    validatePhone(data.phone);
+    validateAddress(data.address);
 
     if (data.educations) {
         for (const education of data.educations) {
-            if (!education.institution || education.institution.length > 100) {
-                throw new Error('Invalid institution');
-            }
-
-            if (!education.title || education.title.length > 100) {
-                throw new Error('Invalid título');
-            }
-
-            if (!education.startDate || !/^\d{4}-\d{2}-\d{2}$/.test(education.startDate)) {
-                throw new Error('Invalid fecha de inicio');
-            }
-
-            if (education.endDate && !/^\d{4}-\d{2}-\d{2}$/.test(education.endDate)) {
-                throw new Error('Invalid fecha de finalización');
-            }
+            validateEducation(education);
         }
     }
 
     if (data.workExperiences) {
         for (const experience of data.workExperiences) {
-            if (!experience.company || experience.company.length > 100) {
-                throw new Error('Invalid company');
-            }
-
-            if (!experience.position || experience.position.length > 100) {
-                throw new Error('Invalid position');
-            }
-
-            if (experience.description && experience.description.length > 200) {
-                throw new Error('Invalid descripción');
-            }
-
-            if (!experience.startDate || !/^\d{4}-\d{2}-\d{2}$/.test(experience.startDate)) {
-                throw new Error('Invalid fecha de inicio');
-            }
-
-            if (experience.endDate && !/^\d{4}-\d{2}-\d{2}$/.test(experience.endDate)) {
-                throw new Error('Invalid fecha de finalización');
-            }
+            validateExperience(experience);
         }
     }
 
-    // Validación para el campo cv que ahora recibe un objeto con filePath y fileType
     if (data.cv) {
-        if (typeof data.cv !== 'object' || !data.cv.filePath || typeof data.cv.filePath !== 'string' || !data.cv.fileType || typeof data.cv.fileType !== 'string') {
-            throw new Error('Invalid CV data');
-        }
+        validateCV(data.cv);
     }
 };

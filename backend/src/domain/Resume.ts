@@ -25,6 +25,8 @@ export class Resume {
     }
 
     async create(): Promise<Resume> {
+        console.log(this);
+
         const createdResume = await prisma.resume.create({
             data: {
                 candidateId: this.candidateId,

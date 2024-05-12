@@ -6,7 +6,7 @@ const storage = multer.diskStorage({
         cb(null, './uploads/');
     },
     filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const uniqueSuffix = Date.now();
         cb(null, uniqueSuffix + '-' + file.originalname);
     }
 });
@@ -42,7 +42,6 @@ export const uploadFile = (req: Request, res: Response) => {
         if (!req.file) {
             return res.status(400).json({ error: 'Invalid file type, only PDF and DOCX are allowed!' });
         }
-
         // Si todo está bien, proceder a responder con la ruta del archivo y el tipo de archivo
         res.status(200).json({
             filePath: req.file.path,

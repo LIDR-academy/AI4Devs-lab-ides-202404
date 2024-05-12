@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
 import candidateRoutes from './routes/candidateRoutes';
 import { uploadFile } from './application/fileUploadService';
+import cors from 'cors';
 
 // Extender la interfaz Request para incluir prisma
 declare global {
@@ -28,6 +29,12 @@ app.use((req, res, next) => {
   req.prisma = prisma;
   next();
 });
+
+// Middleware para permitir CORS desde http://localhost:3000
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 
 // Import and use candidateRoutes
 app.use('/candidates', candidateRoutes);

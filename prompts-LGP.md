@@ -37,6 +37,10 @@
 
 - Prompt: quiero que generes el codigo para el guardado en base de datos, ten en cuenta que estamos usando postgresql y que tienes el modelo de datos en @schema.prisma
 
+- Prompt: @candidateService.ts ten en cuenta que el usuario puede subir uno a más cvs en formato pdf o docx, tenemos que implementar esto tambien, puedes ver el modelo de datos en @schema.prisma 
+
+- Prompt: @codebase vamos a cambiar la logica, creo que tiene más sentido tener un endpoint para subir ficheros, ese endpoint devolverá el filepath y el filetype que será lo que indiquemos en el endpoint /candidates
+
 *Nota: para conseguir tener funcionando el endpoint guardando a los candidatos en base de datos en las diferentes tablas he tenido que intercambiar varios prompts para corregir errores hasta tener algo funcional*
 
 - Prompt: quiero que actues como un backend senior developer para crear un test para probar el endpoint /candidates teniendo en cuenta que es una aplicación Express escrita en TypeScript
@@ -44,3 +48,19 @@
 - Prompt: @candidateController.test.ts  revisa los datos que se envian al endpoint, tienes más información de los datos en @validator.ts 
 
 *Nota: con el test he tenido bastantes problemas, había un error que no era capaz de solucionar ni con chat normal ni en modo intérprete. Finalmente opté por preguntar de forma global por cómo solucionar el error y luego pasarle esa información al modo intérprete para que aplicara la solución propuesta*
+
+- Prompt: @Codebase como desarrollador back experto, quiero que documentes la API de /backend usando el standar OpenAPI para describir y documentar esta API restful. Quiero que proporciones una descripción clara de cada endpoint y documentes los parámetros de solicitud y respuesta, tienes más informacion en @validator.ts
+
+### Frontend
+
+- Prompt: @Codebase Teniendo en cuenta que el frontend es una aplicación React y sus archivos principales están ubicados en el directorio src, el directorio public contiene activos estáticos y el directorio build contiene la construcción de producción de la aplicación, quiero que actues como un desarrollador front senior que sigue buenas practicas para generar el código para el front definido en este ticket. Quiero que tengas en cuenta la documentacion de la API para saber como enviar los datos para subir ficheros y crear candidatos, tienes la informacion en @api-spec.yaml 
+
+
+- Prompt: ten en cuenta que en el formulario de creacion del candidato tenemos la posibilidad de subir un cv. Primero tendremos que subir el fichero usando el endpoint http://localhost:3010/upload que aceptará un campo "file" con un fichero tipo PDF o DOCx. Quiero que tengas en cuenta la documentacion de la API para saber como enviar los datos para subir ficheros y crear candidatos, tienes la informacion en @api-spec.yaml 
+
+
+- Prompt: @AddCandidateForm.js teniendo en cuenta que el componente para poder subir un fichero podremos usarlo en otras partes de la aplicacion, quiero que lo extraigas de este form y que crees un componente independiente que incluiremos luego en este
+
+
+- Prompt: quiero que tanto el dashboard como el formulario para añadir candidatos muestre una interfaz atractiva y que sea compatible con todos los dispositivos, tanto moviles como desktops. 
+

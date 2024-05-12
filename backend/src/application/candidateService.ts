@@ -7,8 +7,8 @@ import { Resume } from '../domain/Resume';
 export const addCandidate = async (candidateData: any) => {
     try {
         validateCandidateData(candidateData); // Validar los datos del candidato
-    } catch (error) {
-        console.error("An error occurred:", error);
+    } catch (error: any) {
+        throw new Error(error);
     }
 
     const candidate = new Candidate(candidateData); // Crear una instancia del modelo Candidate
@@ -48,7 +48,7 @@ export const addCandidate = async (candidateData: any) => {
     } catch (error: any) {
         if (error.code === 'P2002') {
             // Unique constraint failed on the fields: (`email`)
-            return { message: 'El email ya existe en la base de datos' };
+            throw new Error('El email ya existe en la base de datos');
         } else {
             throw error;
         }
