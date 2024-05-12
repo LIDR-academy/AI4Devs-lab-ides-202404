@@ -1,4 +1,9 @@
 export const validateCandidateData = (data: any) => {
+    if (data.id) {
+        // If id is provided, we are editing an existing candidate, so fields are not mandatory
+        return;
+    }
+
     if (!data.firstName || data.firstName.length < 2 || data.firstName.length > 50 || !/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/.test(data.firstName)) {
         throw new Error('Invalid firstName');
     }
@@ -23,7 +28,6 @@ export const validateCandidateData = (data: any) => {
 
     if (data.educations) {
         for (const education of data.educations) {
-            console.log('Validating education:', education);
             if (!education.institution || education.institution.length > 100) {
                 throw new Error('Invalid institution');
             }
@@ -44,7 +48,6 @@ export const validateCandidateData = (data: any) => {
 
     if (data.workExperiences) {
         for (const experience of data.workExperiences) {
-            console.log('Validating work experience:', experience);
             if (!experience.company || experience.company.length > 100) {
                 throw new Error('Invalid company');
             }

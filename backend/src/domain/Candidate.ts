@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { Education } from './Education';
 import { WorkExperience } from './WorkExperience';
 import { Resume } from './Resume';
@@ -67,18 +67,31 @@ export class Candidate {
         if (this.resumes.length > 0) {
             candidateData.resumes = {
                 create: this.resumes.map(resume => ({
-                    file: resume.file,
-                    description: resume.description
+                    filePath: resume.filePath,
+                    fileType: resume.fileType
                 }))
             };
         }
 
         if (this.id) {
             // Actualizar un candidato existente
-            return await prisma.candidate.update({
-                where: { id: this.id },
-                data: candidateData
-            });
+            try {
+                return await prisma.candidate.update({
+                    where: { id: this.id },
+                    data: candidateData
+                });
+            } catch (error: any) {
+                console.log(error);
+                if (error instanceof Prisma.PrismaClientInitializationError) {
+                    // Database connection error
+                    throw new Error('No se pudo conectar con la base de datos. Por favor, asegúrese de que el servidor de base de datos esté en ejecución.');
+                } else if (error.code === 'P2025') {
+                    // Record not found error
+                    throw new Error('No se pudo encontrar el registro del candidato con el ID proporcionado.');
+                } else {
+                    throw error;
+                }
+            }
         } else {
             // Crear un nuevo candidato
             try {
@@ -87,7 +100,12 @@ export class Candidate {
                 });
                 return result;
             } catch (error: any) {
-                throw error;
+                if (error instanceof Prisma.PrismaClientInitializationError) {
+                    // Database connection error
+                    throw new Error('No se pudo conectar con la base de datos. Por favor, asegúrese de que el servidor de base de datos esté en ejecución.');
+                } else {
+                    throw error;
+                }
             }
         }
     }
