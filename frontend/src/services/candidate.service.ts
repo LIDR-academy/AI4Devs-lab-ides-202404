@@ -6,12 +6,18 @@ export const addCandidate = async (candidateData: any) => {
   try {
     const response = await axios.post(API_URL, candidateData, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'multipart/form-data' 
       }
     });
     return response.data;
   } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      // Manejo de errores específicos basado en el código de estado HTTP
+      if (error.response.status === 409) {
+        throw new Error('El correo electrónico ya está registrado. Por favor, utiliza otro.');
+      }
+    }
     console.error('Error al añadir candidato:', error);
-    throw error;
+    throw error; // Propagar el error
   }
 };

@@ -1,12 +1,21 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Menu from './components/Menu';
+import Home from './components/Home';
 import AddCandidateForm from './components/AddCandidateForm';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Añadir Nuevo Candidato</h1>
-      <AddCandidateForm />
-    </div>
+    <Router>
+      <div className="App">
+        <Menu />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/add-candidate" element={<AddCandidateForm />} />
+          {/* Añade más rutas según sea necesario */}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
