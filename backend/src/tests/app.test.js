@@ -18,6 +18,6 @@ describe('GET /', () => {
     it('responds with Hello World!', () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(index_1.app).get('/');
         expect(response.statusCode).toBe(200);
-        expect(response.text).toBe('Hello World!');
+        expect(response.text).toBe('Hola LTI!');
     }));
 });
