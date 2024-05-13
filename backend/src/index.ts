@@ -6,7 +6,9 @@ dotenv.config();
 
 export const app = express();
 const port = process.env.PORT || 3010;
+const cors = require('cors');
 
+app.use(cors());
 app.use(express.json());
 
 app.use('/candidates', candidatesRouter);
