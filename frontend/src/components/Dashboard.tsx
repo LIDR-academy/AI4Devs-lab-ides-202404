@@ -1,4 +1,3 @@
-import { Button } from '@nextui-org/react';
 import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
@@ -6,7 +5,7 @@ const Dashboard = () => {
     <div>
       <h1>Recruiter Dashboard</h1>
       <Link to="/add-candidate">
-        <Button>Add New Candidate</Button>
+        <button>Add New Candidate</button>
       </Link>
     </div>
   );
