@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Añadir Candidato</title>
+</head>
+<body>
+    <form action="/add-candidate" method="post" enctype="multipart/form-data">
+        <input type="text" name="firstName" placeholder="Nombre" required>
+        <input type="text" name="lastName" placeholder="Apellido" required>
+        <input type="email" name="email" placeholder="Correo Electrónico" required>
+        <input type="tel" name="phone" placeholder="Teléfono">
+        <input type="text" name="address" placeholder="Dirección">
+        <textarea name="education" placeholder="Educación"></textarea>
+        <textarea name="experience" placeholder="Experiencia Laboral"></textarea>
+        <input type="file" name="resume" accept=".pdf,.docx">
+        <button type="submit">Añadir Candidato</button>
+    </form>
+</body>
+</html>
