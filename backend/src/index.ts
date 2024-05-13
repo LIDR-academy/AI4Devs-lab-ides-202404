@@ -2,6 +2,12 @@ import { Request, Response, NextFunction } from 'express';
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
+import candidateRouter from './routes/candidateRoutes';
+
+const app = express();
+
+app.use(express.json());
+app.use(candidateRouter);
 
 dotenv.config();
 const prisma = new PrismaClient();
