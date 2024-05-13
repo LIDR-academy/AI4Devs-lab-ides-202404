@@ -1,19 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
+import { addCandidate } from './routes/candidateRoutes';
 
 dotenv.config();
-const prisma = new PrismaClient();
 
 export const app = express();
-export default prisma;
 
 const port = 3010;
 
 app.get('/', (req, res) => {
   res.send('Hola LTI!');
 });
+
+app.use('/api', addCandidate);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
