@@ -1,7 +1,7 @@
 # dependencies
 backend/node_modules
 frontend/node_modules
-/node_modules
+
 /.pnp
 .pnp.js
 
@@ -9,6 +9,9 @@ frontend/node_modules
 /coverage
 
 # production
+backend/build
+frontend/build
+
 /build
 /dist
 
