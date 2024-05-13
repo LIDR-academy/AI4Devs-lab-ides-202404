@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-# dependencies
-backend/node_modules
-backend/package-lock.json
-frontend/node_modules
-frontend/package-lock.json
-frontend/yarn.lock
-
-=======
 # Ignore in all directories
 **/.DS_Store
 #**/.env
@@ -15,7 +6,6 @@ frontend/yarn.lock
 **/prompts_master.md
 
 # other dependencies
->>>>>>> upstream/main
 /.pnp
 .pnp.js
 
@@ -23,16 +13,8 @@ frontend/yarn.lock
 /coverage
 
 # production
-<<<<<<< HEAD
-backend/dist
-frontend/build
-
-# misc
-.DS_Store
-=======
 **/build
 **/dist
->>>>>>> upstream/main
 
 # logs
 npm-debug.log*
@@ -44,8 +26,4 @@ yarn-error.log*
 .vscode
 
 # .env
-<<<<<<< HEAD
-backend/.env
-=======
->>>>>>> upstream/main
 
