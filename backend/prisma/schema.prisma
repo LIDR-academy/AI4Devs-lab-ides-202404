@@ -28,6 +28,6 @@ model Candidate {
   address    String?
   education  String?
   experience String?
+  resumePath String?
 }
-
 

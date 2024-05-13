@@ -2,34 +2,54 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AddCandidate.css'; // Import CSS for styling
 
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address: string;
+  education: string;
+  experience: string;
+  resume: File | null;
+}
+
 function AddCandidate() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     address: '',
     education: '',
-    experience: ''
+    experience: '',
+    resume: null
   });
 
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedFormData = { ...formData, [e.target.name]: e.target.value };
-    setFormData(updatedFormData);
-    console.log(updatedFormData);
+    if (e.target.type === 'file') {
+      if (e.target.files && e.target.files.length > 0) {
+        setFormData({ ...formData, [e.target.name]: e.target.files[0] });
+      }
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Form submitted', formData);
+    const data = new FormData();
+    Object.keys(formData).forEach(key => {
+      const value = formData[key as keyof FormData];
+      if (value instanceof File || typeof value === 'string') {
+        data.append(key, value);
+      }
+    });
+
     const response = await fetch('http://localhost:3010/api/candidates', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
+      body: data, // Send as FormData
     });
     console.log('response from the backend', response);
     // Implement submission logic here
@@ -67,6 +87,10 @@ function AddCandidate() {
         <label>
           Experience:
           <input type="text" name="experience" value={formData.experience} onChange={handleChange} />
+        </label>
+        <label>
+          Resume:
+          <input type="file" name="resume" accept=".doc,.docx,.pdf" onChange={handleChange} />
         </label>
         <button type="submit">Add Candidate</button>
       </form>
