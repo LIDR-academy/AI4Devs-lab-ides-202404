@@ -1,7 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import Dashboard from './components/Dashboard';
-import AddCandidateForm from './components/AddCandidateForm';
+import './global.css'; 
+
+import Dashboard from './components/Dashboard/Dashboard';
+import AddCandidateForm from './components/AddCandidateForm/AddCandidateForm';
 
 const App = () => {
   return (
