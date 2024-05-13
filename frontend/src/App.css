@@ -36,3 +36,36 @@
     transform: rotate(360deg);
   }
 }
+
+.navbar-brand {
+  margin-left: 20px; /* Ajusta el margen según tus necesidades */
+}
+
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh; /* Ajusta la altura mínima según sea necesario */
+}
+
+.main-content input,
+.main-content button {
+  margin-bottom: 5px; /* Espacio entre los inputs y el botón */
+}
+
+.form-horizontal-group {
+  display: flex;
+  flex-direction: column; /* Cambio para alinear verticalmente */
+  align-items: flex-start; /* Alinea los elementos al inicio */
+  margin-bottom: 15px;
+}
+
+.form-horizontal-group label {
+  white-space: nowrap; /* Evita que el texto del label se envuelva */
+  margin-bottom: 5px; /* Espacio entre el label y el campo de entrada */
+}
+
+.button-right-align {
+  display: flex;
+  justify-content: flex-end; /* Alinea el botón a la izquierda */
+}
