@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 
 export const addCandidate = async (req: Request, res: Response) => {
     try {
+        console.log('req.body', req.body);
         const candidate = await prisma.candidate.create({
             data: req.body,
         });
