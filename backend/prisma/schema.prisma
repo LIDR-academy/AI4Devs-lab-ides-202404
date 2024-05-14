@@ -18,3 +18,26 @@ model User {
   email String  @unique
   name  String?
 }
+
+model Candidate {
+  id             Int      @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  email          String   @unique
+  telephone      String?
+  address        String?
+  education      String?
+  workExperience String?
+  Resumes        Resume[] // Relation to Resume model
+
+  @@map("candidates")
+}
+
+model Resume {
+  id         Int      @id @default(autoincrement())
+  path       String
+  candidate  Candidate @relation(fields: [candidateId], references: [id])
+  candidateId Int
+
+  @@map("resumes")
+}
