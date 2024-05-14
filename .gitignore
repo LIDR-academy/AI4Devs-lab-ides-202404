@@ -1,11 +1,11 @@
-# Ignore in all directories
-**/.DS_Store
-#**/.env
-**/.env.example
-**/node_modules
-**/prompts_master.md
+# dependencies
+/node_modules
+/frontend/node_modules
+/frontend/build
 
-# other dependencies
+/backend/dist
+/backend/node_modules
+
 /.pnp
 .pnp.js
 
@@ -13,8 +13,11 @@
 /coverage
 
 # production
-**/build
-**/dist
+/build
+/dist
+
+# misc
+.DS_Store
 
 # logs
 npm-debug.log*
@@ -26,4 +29,3 @@ yarn-error.log*
 .vscode
 
 # .env
-
