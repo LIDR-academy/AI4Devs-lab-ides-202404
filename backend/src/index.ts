@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
+import cors from 'cors';
+import candidateRoutes from './routes/candidateRoutes'; // Import the routes
 
 dotenv.config();
 const prisma = new PrismaClient();
@@ -11,9 +13,17 @@ export default prisma;
 
 const port = 3010;
 
-app.get('/', (req, res) => {
+app.use(cors());
+
+app.use(express.json()); // Middleware to parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
+
+app.get('/', (req: Request, res: Response) => {
   res.send('Hola LTI!');
 });
+
+// Use the candidate routes
+app.use(candidateRoutes);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
