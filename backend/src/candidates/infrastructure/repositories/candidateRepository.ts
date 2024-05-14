@@ -10,10 +10,6 @@ export class PrismaCandidateRepository implements CandidateRepository {
   }
 
   async addCandidate(candidate: Candidate): Promise<Candidate> {
-    console.log({candidate});
-    console.log(process.env.DATABASE_URL);
-    
-    
     const createdCandidate = await this.prisma.candidate.create({
       data: {
         firstName: candidate.firstName,
