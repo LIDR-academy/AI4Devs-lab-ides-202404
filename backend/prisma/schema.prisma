@@ -17,4 +17,17 @@ model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
+  @@map("user")
+}
+
+model Candidate {
+  id              Int     @id @default(autoincrement())
+  name            String
+  email           String  @unique
+  phone           String?
+  address         String?
+  education       String?
+  work_experience String?
+  cv              String? // This will store the path to the CV file
+  @@map("candidate")
 }
