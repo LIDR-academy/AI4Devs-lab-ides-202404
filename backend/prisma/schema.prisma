@@ -17,4 +17,54 @@ model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
+
+  @@map("user")
+}
+
+model Candidate {
+  id              Int              @id @default(autoincrement())
+  first_name      String
+  last_name       String
+  email           String
+  phone           String
+  address         String
+  education       Education[]
+  work_experience WorkExperience[] @relation("WorkExperienceToCandidate")
+  documents       Document[]
+
+  @@map("candidate")
+}
+
+model Education {
+  id           Int       @id @default(autoincrement())
+  candidate_id Int
+  institution  String
+  degree       String
+  start_date   DateTime
+  end_date     DateTime
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+
+  @@map("education")
+}
+
+model WorkExperience {
+  id           Int       @id @default(autoincrement())
+  candidate_id Int
+  company      String
+  position     String
+  start_date   DateTime
+  end_date     DateTime
+  candidate    Candidate @relation("WorkExperienceToCandidate", fields: [candidate_id], references: [id])
+
+  @@map("work_experience")
+}
+
+model Document {
+  id           Int       @id @default(autoincrement())
+  candidate_id Int
+  type         String
+  url          String
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+
+  @@map("document")
 }
