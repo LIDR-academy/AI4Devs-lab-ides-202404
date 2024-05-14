@@ -13,8 +13,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Candidato {
+  id                Int                @id @default(autoincrement())
+  nombre            String
+  apellido          String
+  correo_electronico String            @unique
+  telefono          String?            @db.VarChar(15)
+  direccion         String?
+  educaciones       Educacion[]
+  experiencias      ExperienciaLaboral[]
+  documentos        Documento[]
+}
+
+model Educacion {
+  id                Int                @id @default(autoincrement())
+  candidato_id      Int
+  institucion       String
+  titulo            String
+  fecha_inicio      DateTime
+  fecha_fin         DateTime?
+  candidato         Candidato          @relation(fields: [candidato_id], references: [id])
+}
+
+model ExperienciaLaboral {
+  id                Int                @id @default(autoincrement())
+  candidato_id      Int
+  empresa           String
+  titulo            String
+  descripcion       String
+  fecha_inicio      DateTime
+  fecha_fin         DateTime?
+  candidato         Candidato          @relation(fields: [candidato_id], references: [id])
+}
+
+model Documento {
+  id                Int                @id @default(autoincrement())
+  candidato_id      Int
+  tipo_documento    String             @db.VarChar(50)
+  ruta_archivo      String
+  candidato         Candidato          @relation(fields: [candidato_id], references: [id])
 }

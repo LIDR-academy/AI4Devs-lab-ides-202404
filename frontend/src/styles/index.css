@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* frontend/src/styles/index.css */
+.drag-drop-area {
+    transition: border-color 0.3s ease;
+    border: 2px dashed #d1d5db; /* gray-300 */
+    padding: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.drag-drop-area:hover {
+    border-color: #3b82f6; /* blue-500 */
+}
+
+.file-uploaded {
+    color: #1d4ed8; /* blue-700 */
+    font-weight: bold;
+}
