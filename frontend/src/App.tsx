@@ -1,26 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import LoginForm from './components/LoginForm'; // Importar el componente LoginForm
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+    useEffect(() => {
+        // Lógica para ejecutar LoginForm al iniciar la aplicación
+        // Por ejemplo, redirigir a la página de inicio de sesión
+    }, []);
+
+    return (
+        <div>
+            <LoginForm /> {/* Renderizar el componente LoginForm al iniciar la aplicación */}
+        </div>
+    );
 }
 
 export default App;
+
