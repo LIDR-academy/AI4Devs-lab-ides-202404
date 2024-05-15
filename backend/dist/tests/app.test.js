@@ -42,7 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var supertest_1 = __importDefault(require("supertest"));
 var index_1 = require("../index");
 describe('GET /', function () {
-    it('responds with Hello World!', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('responds with Hola LTI!', function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -50,7 +50,7 @@ describe('GET /', function () {
                 case 1:
                     response = _a.sent();
                     expect(response.statusCode).toBe(200);
-                    expect(response.text).toBe('Hello World!');
+                    expect(response.text).toBe('Hola LTI!');
                     return [2 /*return*/];
             }
         });
