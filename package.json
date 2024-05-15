@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "prisma": {
+    "schema": "backend/prisma/schema.prisma"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}
