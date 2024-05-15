@@ -5,6 +5,9 @@
 **/node_modules
 **/prompts_master.md
 
+/frontend/build
+/backend/dist
+
 # other dependencies
 /.pnp
 .pnp.js
