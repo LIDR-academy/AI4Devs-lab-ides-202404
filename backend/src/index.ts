@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
 import candidateRoutes from './routes/candidateRoutes';
 import cleanupMiddleware from './middleware/cleanupMiddleware';
+import errorHandlerMiddleware from './middleware/errorHandlerMiddleware';
 
 dotenv.config();
 const prisma = new PrismaClient();
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 
 app.use(express.json());
 app.use('/api', candidateRoutes);
+app.use(errorHandlerMiddleware);
 app.use(cleanupMiddleware);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

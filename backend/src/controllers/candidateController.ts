@@ -1,9 +1,13 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export const createCandidate = async (req: Request, res: Response) => {
+export const createCandidate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const {
     firstName,
     lastName,
@@ -37,7 +41,6 @@ export const createCandidate = async (req: Request, res: Response) => {
 
     res.status(201).json(newCandidate);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al agregar el candidato' });
+    next(error);
   }
 };
