@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import candidateRoutes from './routes/candidateRoutes';
 import cleanupMiddleware from './middleware/cleanupMiddleware';
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware';
+import cors from 'cors';
 
 dotenv.config();
 const prisma = new PrismaClient();
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 });
 
 app.use(express.json());
+app.use(cors());
 app.use('/api', candidateRoutes);
 app.use(errorHandlerMiddleware);
 app.use(cleanupMiddleware);
