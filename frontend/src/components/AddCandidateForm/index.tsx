@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 
 interface FormData {
@@ -16,7 +16,11 @@ interface FormData {
     cv: File | null;
 }
 
-export const AddCandidateForm: React.FC = () => {
+interface AddCandidateFormProps {
+    onSubmit: () => void;
+  }
+
+export const AddCandidateForm = ({ onSubmit }: AddCandidateFormProps) => {
     const [formData, setFormData] = useState<FormData>({
         firstName: '',
         lastName: '',
@@ -83,7 +87,8 @@ export const AddCandidateForm: React.FC = () => {
                     content: cvContent
                 }]
             });
-            console.log(response.data); // Handle response as needed
+            console.log(response.data);
+            onSubmit();
         } catch (error) {
             console.error('Error adding candidate:', error);
         }
@@ -91,7 +96,7 @@ export const AddCandidateForm: React.FC = () => {
 
     return (
         <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8">
-        <section>
+        <section className="p-4">
             <h2>Datos Personales</h2>
             <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
             <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mt-2" required />
@@ -99,12 +104,12 @@ export const AddCandidateForm: React.FC = () => {
             <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mt-2" required />
             <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mt-2" required />
         </section>
-        <section>
+        <section className="p-4">
             <h2>Educación</h2>
             <input type="text" name="degree" value={formData.degree} onChange={handleChange} placeholder="Degree" className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mt-2" required />
             <input type="text" name="institution" value={formData.institution} onChange={handleChange} placeholder="Institution" className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mt-2" required />
         </section>
-        <section>
+        <section className="p-4">
             <h2>Experiencia</h2>
             <input type="text" name="position" value={formData.position} onChange={handleChange} placeholder="Position" className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mt-2" required />
             <input type="text" name="company" value={formData.company} onChange={handleChange} placeholder="Company" className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mt-2" required />
