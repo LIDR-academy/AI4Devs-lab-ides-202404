@@ -2,6 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
+import candidateRoutes from './routes/candidateRoutes';
+import cleanupMiddleware from './middleware/cleanupMiddleware';
+import errorHandlerMiddleware from './middleware/errorHandlerMiddleware';
+import cors from 'cors';
 
 dotenv.config();
 const prisma = new PrismaClient();
@@ -15,9 +19,15 @@ app.get('/', (req, res) => {
   res.send('Hola LTI!');
 });
 
+app.use(express.json({ limit: '50mb' }));
+app.use(cors());
+app.use('/api', candidateRoutes);
+app.use(errorHandlerMiddleware);
+app.use(cleanupMiddleware);
+
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
-  res.type('text/plain'); 
+  res.type('text/plain');
   res.status(500).send('Something broke!');
 });
 
