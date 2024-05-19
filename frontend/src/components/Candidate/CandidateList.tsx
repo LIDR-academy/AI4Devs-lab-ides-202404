@@ -1,14 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../layout/NavBar";
-import { Candidate, getCandidates } from "../../services/candidateService";
+import {
+  Candidate,
+  getCandidates,
+  uploadCandidateCV,
+} from "../../services/candidateService";
+import LtiDialog from "../common/LtiDialog";
 
 const Candidates: React.FC = () => {
   const navigate = useNavigate();
   const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogContent, setDialogContent] = useState("");
 
   const handleCreateCandidate = () => {
     navigate("/Candidate/Create");
+  };
+
+  const handleUploadClick = async (candidateId: number) => {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files![0];
+      if (file) {
+        try {
+          const uploadSuccessful = await uploadCandidateCV(file, candidateId);
+          if (uploadSuccessful) {
+            getCandidates().then(setCandidates); // Refresca la lista de candidatos
+            setDialogContent("File uploaded successfully.");
+            setDialogOpen(true);
+          }
+        } catch (error) {
+          setDialogContent(
+            "Please note that only PDF and DOCX files are allowed. Make sure your file is in one of these formats and try uploading again."
+          );
+          setDialogOpen(true);
+        }
+      }
+    };
+    fileInput.click();
   };
 
   useEffect(() => {
@@ -52,6 +83,8 @@ const Candidates: React.FC = () => {
                 <th className="px-4 py-2">Teléfono</th>
                 <th className="px-4 py-2">Educación</th>
                 <th className="px-4 py-2">Experiencia Laboral</th>
+                <th className="px-4 py-2">CV Uploaded</th>
+                <th className="px-4 py-2">Actions</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
@@ -66,12 +99,37 @@ const Candidates: React.FC = () => {
                   <td className="border px-4 py-2">
                     {candidate.workExperience}
                   </td>
+                  <td className="border px-4 py-2">
+                    {candidate.cvUrl ? "Yes" : "No"}
+                  </td>
+                  <td className="border px-4 py-2 flex items-center gap-2">
+                    <button
+                      onClick={() =>
+                        candidate.id !== undefined &&
+                        handleUploadClick(candidate.id)
+                      }
+                    >
+                      📎 Subir CV
+                    </button>
+                    {candidate.cvUrl && (
+                      <a href={`http://localhost:3010/Candidate/downloadCv${candidate.cvUrl}`} download>
+                        ⬇ Descargar
+                      </a>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
+      <LtiDialog
+        isOpen={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        title="Upload Status"
+      >
+        <p>{dialogContent}</p>
+      </LtiDialog>
     </div>
   );
 };

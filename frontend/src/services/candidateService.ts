@@ -12,6 +12,7 @@ export interface Candidate {
   address?: string;
   education?: string;
   workExperience?: string;
+  cvUrl?: string;
 }
 
 export const getCandidates = async (): Promise<Candidate[]> => {
@@ -38,3 +39,20 @@ export const deleteCandidate = async (id: number): Promise<void> => {
   await axios.delete(`${API_URL}/${id}`);
 };
 
+export const uploadCandidateCV = async (file: File, candidateId: number): Promise<boolean> => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("candidateId", candidateId.toString());
+  
+    try {
+      const response = await axios.post("http://localhost:3010/Candidate/uploadCv", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.status === 200; // Asumiendo que el servidor devuelve 200 para una carga exitosa
+    } catch (error) {
+      console.error("Upload failed:", error);
+      return false;
+    }
+  };
