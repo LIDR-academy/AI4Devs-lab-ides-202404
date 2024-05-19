@@ -13,8 +13,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Candidate {
+  id           Int     @id @default(autoincrement())
+  firstName    String  // Nombre del candidato
+  lastName     String  // Apellido del candidato
+  email        String  @unique // Correo electrónico del candidato
+  phone        String? // Teléfono del candidato, opcional
+  address      String? // Dirección del candidato, opcional
+  education    String? // Educación del candidato, opcional
+  workExperience String? // Experiencia laboral del candidato, opcional
 }
