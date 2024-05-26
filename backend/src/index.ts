@@ -1,23 +1,26 @@
 import { Request, Response, NextFunction } from 'express';
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
+import path from 'path';
+import cors from 'cors';
+import { createCandidateRouter } from './routes/candidates.routes';
+import { candidateController } from './infrastructure/dependency-injection';
 
-dotenv.config();
-const prisma = new PrismaClient();
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
-export const app = express();
-export default prisma;
+const app = express();
+app.use(express.json());
+app.use('/public', express.static(path.join(__dirname, '../public')));
+app.use(cors());
 
 const port = 3010;
 
-app.get('/', (req, res) => {
-  res.send('Hola LTI!');
-});
+const candidateRouter = createCandidateRouter(candidateController);
+app.use('/candidates', candidateRouter);
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
-  res.type('text/plain'); 
+  res.type('text/plain');
   res.status(500).send('Something broke!');
 });
 

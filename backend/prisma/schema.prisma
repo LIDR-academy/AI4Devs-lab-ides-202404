@@ -13,8 +13,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Candidate {
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  name       String
+  lastName   String
+  phone      String
+  address    String
+  education  Int
+  experience Int
+  cv         CandidateCV?
+}
+
+model CandidateCV {
+  id          Int        @id @default(autoincrement())
+  candidateId Int        @unique
+  fileName    String
+  filePath    String
+  candidate   Candidate? @relation(fields: [candidateId], references: [id])
 }
