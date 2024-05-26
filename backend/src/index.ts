@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
+import cors from 'cors';
 import { createCandidateRouter } from './routes/candidates.routes';
 import { candidateController } from './infrastructure/dependency-injection';
 
@@ -10,6 +11,7 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 const app = express();
 app.use(express.json());
 app.use('/public', express.static(path.join(__dirname, '../public')));
+app.use(cors());
 
 const port = 3010;
 

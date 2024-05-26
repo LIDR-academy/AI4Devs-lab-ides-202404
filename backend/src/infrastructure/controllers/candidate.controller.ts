@@ -13,11 +13,19 @@ export class CandidateController {
       const candidateData = req.body;
       const cv = req.file;
 
-      if (!Object.values(EducationLevel).includes(candidateData.education)) {
+      if (
+        !Object.values(EducationLevel).includes(
+          parseInt(candidateData.education, 10),
+        )
+      ) {
         throw new Error('Invalid education value');
       }
 
-      if (!Object.values(ExperienceLevel).includes(candidateData.experience)) {
+      if (
+        !Object.values(ExperienceLevel).includes(
+          parseInt(candidateData.experience, 10),
+        )
+      ) {
         throw new Error('Invalid experience value');
       }
 
