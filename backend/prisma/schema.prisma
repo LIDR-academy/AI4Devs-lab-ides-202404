@@ -10,11 +10,25 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://LTIdbUser:D1ymf8wyQEGthFR1E9xhCq@localhost:5432/LTIdb"
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Candidate {
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  name       String
+  lastName   String
+  phone      String
+  address    String
+  education  String
+  experience String
+  cv         CandidateCV?
+}
+
+model CandidateCV {
+  id          Int        @id @default(autoincrement())
+  candidateId Int        @unique
+  fileName    String
+  filePath    String
+  candidate   Candidate? @relation(fields: [candidateId], references: [id])
 }
