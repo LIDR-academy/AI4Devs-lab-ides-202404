@@ -7,8 +7,8 @@ export class Candidate {
     public readonly email: string,
     public readonly phone: string,
     public readonly address: string,
-    public readonly education: string,
-    public readonly experience: string,
+    public readonly education: number,
+    public readonly experience: number,
     public readonly cv?: CandidateCV | null,
     public readonly id?: number,
   ) {}

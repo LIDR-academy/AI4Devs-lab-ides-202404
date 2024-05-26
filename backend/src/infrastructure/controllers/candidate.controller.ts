@@ -1,45 +1,9 @@
 import { Request, Response } from 'express';
-import multer from 'multer';
-import path from 'path';
 import { CandidateService } from '../../application/services/candidate.service';
 import { Candidate } from '../../domain/entities/candidate.entity';
-
-// Configuración de Multer
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, 'public/cvs');
-  },
-  filename: (_req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(
-      null,
-      file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname),
-    );
-  },
-});
-
-const fileFilter = (
-  _req: Request,
-  file: Express.Multer.File,
-  cb: multer.FileFilterCallback,
-) => {
-  const allowedTypes = /pdf|docx/;
-  const extname = allowedTypes.test(
-    path.extname(file.originalname).toLowerCase(),
-  );
-  const mimetype = allowedTypes.test(file.mimetype);
-
-  if (extname && mimetype) {
-    return cb(null, true);
-  } else {
-    cb(new Error('Only .pdf and .docx files are allowed!'));
-  }
-};
-
-const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter,
-});
+import upload from '../../config/multer';
+import { EducationLevel } from '../../domain/enums/educationLevel';
+import { ExperienceLevel } from '../../domain/enums/experienceLevel';
 
 export class CandidateController {
   constructor(private readonly candidateService: CandidateService) {}
@@ -49,14 +13,22 @@ export class CandidateController {
       const candidateData = req.body;
       const cv = req.file;
 
+      if (!Object.values(EducationLevel).includes(candidateData.education)) {
+        throw new Error('Invalid education value');
+      }
+
+      if (!Object.values(ExperienceLevel).includes(candidateData.experience)) {
+        throw new Error('Invalid experience value');
+      }
+
       const candidate = new Candidate(
         candidateData.name,
         candidateData.lastName,
         candidateData.email,
         candidateData.phone,
         candidateData.address,
-        candidateData.education,
-        candidateData.experience,
+        parseInt(candidateData.education, 10),
+        parseInt(candidateData.experience, 10),
       );
 
       await this.candidateService.addCandidate(candidate, {
@@ -75,6 +47,16 @@ export class CandidateController {
       res.status(200).json({ candidates });
     } catch (error) {
       res.status(500).json({ message: 'Error getting candidates', error });
+    }
+  }
+
+  async deleteCandidate(req: Request, res: Response): Promise<void> {
+    try {
+      const candidateId = parseInt(req.params.id, 10);
+      await this.candidateService.deleteCandidate(candidateId);
+      res.status(200).json({ message: 'Candidate deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ message: 'Error deleting candidate', error });
     }
   }
 }

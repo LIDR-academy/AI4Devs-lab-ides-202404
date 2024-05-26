@@ -13,6 +13,8 @@ export function createCandidateRouter(
     candidateController.addCandidate(req, res),
   );
   router.get('/', (req, res) => candidateController.getCandidates(req, res));
-
+  router.delete('/:id', (req, res) =>
+    candidateController.deleteCandidate(req, res),
+  );
   return router;
 }

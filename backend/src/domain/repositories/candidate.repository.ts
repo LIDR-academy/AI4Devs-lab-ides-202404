@@ -15,4 +15,6 @@ export interface CandidateRepository {
     candidateId: number,
     cv: { fileName: string; filePath: string },
   ): Promise<void>;
+  deleteCandidate(candidateId: number): Promise<void>;
+  deleteCandidateCV(candidateId: number): Promise<void>;
 }

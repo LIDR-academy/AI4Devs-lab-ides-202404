@@ -20,8 +20,8 @@ model Candidate {
   lastName   String
   phone      String
   address    String
-  education  String
-  experience String
+  education  Int
+  experience Int
   cv         CandidateCV?
 }
 

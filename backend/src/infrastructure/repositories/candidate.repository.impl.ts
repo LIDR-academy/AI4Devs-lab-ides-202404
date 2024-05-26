@@ -53,6 +53,18 @@ export class CandidateRepositoryImpl implements CandidateRepository {
     });
   }
 
+  async deleteCandidate(candidateId: number): Promise<void> {
+    await this.prisma.candidate.delete({
+      where: { id: candidateId },
+    });
+  }
+
+  async deleteCandidateCV(candidateId: number): Promise<void> {
+    await this.prisma.candidateCV.delete({
+      where: { candidateId },
+    });
+  }
+
   async getCandidates(): Promise<Candidate[]> {
     return this.prisma.candidate.findMany({
       include: {

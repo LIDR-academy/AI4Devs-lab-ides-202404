@@ -21,4 +21,14 @@ export class CandidateService {
   async getCandidates(): Promise<Candidate[]> {
     return this.candidateRepository.getCandidates();
   }
+
+  async deleteCandidate(candidateId: number): Promise<void> {
+    try {
+      await this.candidateRepository.deleteCandidateCV(candidateId);
+      await this.candidateRepository.deleteCandidate(candidateId);
+    } catch (error) {
+      console.error('Error in CandidateService.deleteCandidate:', error);
+      throw error;
+    }
+  }
 }
