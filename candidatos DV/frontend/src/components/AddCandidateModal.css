@@ -1,0 +1,120 @@
+/* Estilos generales de la aplicación */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Estilos del encabezado */
+header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+/* Estilos para el contenido principal */
+main {
+  margin: 20px;
+}
+
+/* Estilos para el pie de página */
+footer {
+  background-color: #282c34;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Estilos para enlaces */
+a {
+  color: #61dafb;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para botones */
+button {
+  background-color: #61dafb;
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #21a1f1;
+}
+
+/* Estilos para formularios */
+input, select, textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Estilos para mensajes de error */
+.error-message {
+  color: red;
+  font-size: 0.8em;
+}
+
+/* Estilos para secciones de formulario */
+.form-section {
+    margin-bottom: 10px;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Espacio entre botones */
+    margin-top: 20px; /* Espacio arriba de los botones */
+}
+
+.form-button {
+    flex-grow: 1;
+    margin: 0 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-button {
+    background-color: #28a745; /* Verde */
+}
+
+.delete-button {
+    background-color: #dc3545; /* Rojo */
+}
+
+.add-button {
+    background-color: #007bff; /* Azul */
+}
+
+i {
+    margin-right: 5px;
+}
+
+.accordion-header {
+    background-color: #007bff; /* Azul */
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
