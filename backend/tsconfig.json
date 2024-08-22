@@ -8,6 +8,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "jest.setup.ts", "jest.teardown.ts"],
   "exclude": ["node_modules"]
 }
